@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>4625 кГц — УВБ-76</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at 30% 40%, #0f1a1e, #03080b);
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            padding: 16px;
+        }
+
+        .radio-container {
+            max-width: 520px;
+            width: 100%;
+            background: rgba(8, 28, 34, 0.9);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-radius: 48px;
+            padding: 32px 24px 34px;
+            border: 1px solid rgba(60, 200, 190, 0.15);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(0, 255, 200, 0.03);
+            text-align: center;
+            transition: 0.2s;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(0, 200, 180, 0.10);
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            letter-spacing: 1.5px;
+            color: #7fd1cc;
+            border: 1px solid rgba(0, 200, 180, 0.15);
+            margin-bottom: 14px;
+            backdrop-filter: blur(4px);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 500;
+            color: #d4f4f0;
+            text-shadow: 0 0 20px rgba(0, 200, 200, 0.15);
+            letter-spacing: 2px;
+            margin-bottom: 2px;
+        }
+
+        .frequency {
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: #7bb5b0;
+            margin-bottom: 16px;
+            letter-spacing: 3px;
+        }
+
+        .frequency span {
+            font-weight: 600;
+            color: #b0f0e8;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0 14px;
+            border-radius: 30px;
+            font-size: 1.5rem;
+        }
+
+        .station-name {
+            font-size: 0.9rem;
+            color: #8fcbc4;
+            background: rgba(0, 30, 30, 0.4);
+            padding: 6px 16px;
+            border-radius: 40px;
+            display: inline-block;
+            margin-bottom: 20px;
+            border: 1px solid rgba(80, 200, 180, 0.08);
+            backdrop-filter: blur(4px);
+        }
+
+        .status-led {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #3f8b82;
+            margin-right: 6px;
+            box-shadow: 0 0 10px #2f7a70;
+            transition: 0.3s;
+        }
+
+        .status-led.active {
+            background: #5fdbd0;
+            box-shadow: 0 0 20px #3fb8ad;
+        }
+
+        .player-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            width: 100%;
+        }
+
+        audio {
+            width: 100%;
+            border-radius: 60px;
+            background: #0d1f22;
+            height: 46px;
+            filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.6));
+        }
+
+        audio::-webkit-media-controls-panel {
+            background: #132b2f;
+            border-radius: 60px;
+        }
+
+        audio::-webkit-media-controls-play-button {
+            background: #2b5f5a;
+            border-radius: 50%;
+        }
+
+        .source-info {
+            font-size: 0.7rem;
+            color: #5f9490;
+            margin-top: 2px;
+        }
+
+        .source-info a {
+            color: #7fcbc2;
+            text-decoration: none;
+            border-bottom: 1px dotted rgba(100, 200, 180, 0.2);
+            transition: 0.2s;
+        }
+
+        .source-info a:hover {
+            color: #b0f0e8;
+            border-bottom-color: #80d0c0;
+        }
+
+        .status-text {
+            font-size: 0.7rem;
+            color: #5f9490;
+            min-height: 18px;
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 6px;
+            width: 100%;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: 0.2s;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(60, 200, 190, 0.15);
+            cursor: pointer;
+        }
+
+        .btn-support {
+            background: rgba(255, 215, 0, 0.08);
+            color: #f0d060;
+            border-color: rgba(255, 215, 0, 0.15);
+        }
+
+        .btn-support:hover {
+            background: rgba(255, 215, 0, 0.18);
+            border-color: #f0d060;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.08);
+            transform: scale(1.02);
+        }
+
+        .btn-log {
+            background: rgba(0, 200, 200, 0.08);
+            color: #7fd1cc;
+            border-color: rgba(0, 200, 200, 0.15);
+        }
+
+        .btn-log:hover {
+            background: rgba(0, 200, 200, 0.18);
+            border-color: #7fd1cc;
+            box-shadow: 0 0 25px rgba(0, 200, 200, 0.08);
+            transform: scale(1.02);
+        }
+
+        .btn-icon {
+            font-size: 1.1rem;
+            line-height: 1;
+        }
+
+        .hint {
+            margin-top: 18px;
+            font-size: 0.7rem;
+            color: #3d6b66;
+            background: rgba(0, 20, 20, 0.3);
+            padding: 8px 14px;
+            border-radius: 60px;
+            border: 1px solid rgba(60, 150, 130, 0.06);
+        }
+
+        .hint i {
+            font-style: normal;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        @media (max-width: 480px) {
+            .radio-container { padding: 20px 14px 26px; border-radius: 32px; }
+            h1 { font-size: 2.2rem; }
+            .frequency span { font-size: 1.3rem; }
+            .btn { padding: 6px 14px; font-size: 0.7rem; }
+            .button-group { gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="radio-container">
+    <div class="badge">📡 4625 кГц · УВБ-76</div>
+    <h1>УВБ-76</h1>
+    <div class="frequency"><span>4625 кГц</span></div>
+    <div class="station-name">
+        <span class="status-led" id="statusLed"></span> УВБ-76· перед прослушованием отключи vpn
+    </div>
+
+    <div class="player-controls">
+        <audio id="radioPlayer" controls preload="none">
+            <source src="https://www.uvb76radio.ru/radio" type="audio/mpeg">
+            Ваш браузер не поддерживает аудио-тег.
+        </audio>
+
+        <div class="source-info">
+            
+        </div>
+
+        <div class="status-text" id="statusText">▶ Нажмите Play для запуска</div>
+
+        <div class="button-group">
+            <a href="https://www.donationalerts.com/r/prynix_2015" target="_blank" class="btn btn-support">
+                <span class="btn-icon">❤️</span> Поддержать автора
+            </a>
+            <a href="https://t.me/uvb76_github_io" target="_blank" class="btn btn-log">
+                <span class="btn-icon">📋</span> наш тгк
+            </a>
+        </div>
+    </div>
+
+    <div class="hint">
+        <i>⚡ 4625 кГц — «УВБ-76» (The Buzzer). Сигнал передаётся 24/7.</i>
+    </div>
+</div>
+
+<script>
+    (function() {
+        const player = document.getElementById('radioPlayer');
+        const statusText = document.getElementById('statusText');
+        const statusLed = document.getElementById('statusLed');
+
+        // Обновление статуса
+        player.addEventListener('playing', function() {
+            statusText.textContent = '▶ Играет';
+            statusLed.classList.add('active');
+        });
+
+        player.addEventListener('pause', function() {
+            statusText.textContent = '⏸ Пауза';
+            statusLed.classList.remove('active');
+        });
+
+        player.addEventListener('error', function() {
+            statusText.textContent = '⚠️ Ошибка — попробуйте обновить страницу';
+            statusLed.classList.remove('active');
+        });
+
+        // Попытка автозапуска
+        setTimeout(() => {
+            player.play().catch(() => {
+                statusText.textContent = '▶ Нажмите Play для запуска';
+            });
+        }, 400);
+
+        console.log('📻 4625 кГц — УВБ-76 ()');
+        console.log('❤️ Поддержать: https://www.donationalerts.com/r/prynix_2015');
+</script>
+
+</body>
+</html>
