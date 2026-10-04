@@ -238,7 +238,142 @@
     </style>
 </head>
 <body>
-
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рекламный блок</title>
+    <style>
+        /* Стили для рекламного блока */
+        .custom-ad-container {
+            max-width: 600px;
+            margin: 20px auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            
+    animation: fadeInUp 0.5s ease;
+    animation-fill-mode: both;
+        }
+        
+        .custom-ad-container:hover {
+            transform: translateY(-5px);
+        }
+        
+        .custom-ad-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+        
+        .custom-ad-content {
+            padding: 25px;
+            background: white;
+        }
+        
+        .custom-ad-title {
+            margin: 0 0 15px 0;
+            color: #333;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        
+        .custom-ad-description {
+            color: #666;
+            margin: 0 0 20px 0;
+            line-height: 1.6;
+        }
+        
+        .custom-ad-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .custom-ad-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* Анимация появления */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        
+    </style>
+</head>
+<body>
+    <!-- Рекламный блок -->
+    <div>
+        <div class="custom-ad-container">
+            <div class="custom-ad-image">
+                📢
+            </div>
+            
+            <div class="custom-ad-content">
+                <h3 class="custom-ad-title">Уютный чат для общения в Max</h3>
+                <p class="custom-ad-description">без мата и оскарблений только уютное общение </p>
+                
+                <a href="https://max.ru/join/PNvkorLRcWgjZZxVno85yCuDBHkUtpsTEeURMhqieNI" 
+                   class="custom-ad-button"
+                   target="_blank" rel="noopener noreferrer">
+                    начать общение
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Дополнительный JavaScript (опционально)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Трекинг кликов по рекламе
+            const adButton = document.querySelector('.custom-ad-button');
+            if (adButton) {
+                adButton.addEventListener('click', function() {
+                    console.log('Рекламный клик: Уютный чат для общения в Max');
+                    // Можно добавить отправку в Google Analytics
+                    // ga('send', 'event', 'Ad', 'click', 'Уютный чат для общения в Max');
+                });
+            }
+            
+            // Анимация при скролле
+            const adContainer = document.querySelector('.custom-ad-container');
+            if (adContainer) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            adContainer.style.opacity = '1';
+                            adContainer.style.transform = 'translateY(0)';
+                        }
+                    });
+                });
+                
+                observer.observe(adContainer);
+            }
+        });
+    </script>
+</body>
+</html>
 <div class="radio-container">
     <div class="badge">📡 4625 кГц · УВБ-76</div>
     <h1>УВБ-76</h1>
